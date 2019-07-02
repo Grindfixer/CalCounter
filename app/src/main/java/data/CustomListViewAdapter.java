@@ -1,10 +1,16 @@
 package data;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.jwn.calcounter.FoodItemDetailsActivity;
+import com.jwn.calcounter.R;
 
 import java.util.ArrayList;
 
@@ -14,7 +20,7 @@ public class CustomListViewAdapter extends ArrayAdapter<Food> {
 
     private int layoutResource;
     private Activity activity;
-    private ArrayList<Food> foodList = new ArrayList<>();
+    private ArrayList<Food> foodList;
 
     public CustomListViewAdapter(Activity act, int resource, ArrayList<Food> data) {
         super(act, resource, data);
@@ -47,9 +53,47 @@ public class CustomListViewAdapter extends ArrayAdapter<Food> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+    View row = convertView;
+    ViewHolder holder = null;
 
-        return super.getView(position, convertView, parent);
-    }
+        if (row == null || (row.getTag() == null)) {
+
+            LayoutInflater inflater = LayoutInflater.from(activity);
+            row = inflater.inflate(layoutResource,null);
+
+            holder = new ViewHolder();
+            holder.foodName = row.findViewById(R.id.name);
+            holder.foodDate = row.findViewById(R.id.dateText);
+            holder.foodCalories = row.findViewById(R.id.calories);
+
+            row.setTag(holder);
+        }else {
+            holder = (ViewHolder) row.getTag();
+        }
+
+        holder.food = getItem(position);
+
+        holder.foodName.setText(holder.food.getFoodName());
+        holder.foodDate.setText(holder.food.getRecordDate());
+        holder.foodCalories.setText(String.valueOf(holder.food.getCalories()));
+
+        final ViewHolder finalHolder = holder;
+
+        row.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(activity, FoodItemDetailsActivity.class);
+
+                Bundle mBundle = new Bundle();
+                mBundle.putSerializable("userObj", finalHolder.food);
+                i.putExtras(mBundle);
+
+                activity.startActivity(i);
+            }
+        });
+
+        return row;
+    }//end View getView()
 
     public class ViewHolder {
         Food food;

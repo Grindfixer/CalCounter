@@ -42,7 +42,7 @@
 
         <TextView
             android:id="@+id/totalItemsTextView"
-            android:textColor="#ffee1d27"
+            android:textColor="#292929"
             android:text="@string/food_items_num"
             android:textStyle="bold"
             android:textSize="13sp"
@@ -68,8 +68,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="0.017"
-
-        android:entries="@array/list_items">
+        >
 
     </ListView>
 

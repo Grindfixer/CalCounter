@@ -35,7 +35,7 @@
         android:layout_width="90dp"
         android:layout_height="90dp" />
 
-    <<TextView
+    <TextView
     android:id="@+id/calories"
     android:text="120"
     android:textStyle="bold"
